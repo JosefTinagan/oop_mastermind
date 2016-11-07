@@ -33,5 +33,8 @@ describe Mastermind do
 		expect(param).to eq("BREAKER")
 	end
 
-
+	it "prompt when 12 turns are up" do
+		param = mm.send(:game_over)
+		expect(param).to eq("Game Over")
+	end
 end
