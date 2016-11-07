@@ -1,0 +1,3 @@
+class Mastermind
+
+end
