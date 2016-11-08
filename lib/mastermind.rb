@@ -7,7 +7,7 @@ class Mastermind
 	end
 
 	private
-
+	
 	def choosing_mode
 		puts "Would you like to play as a code breaker or as a code master?"
 		puts "[1] to play as a code breaker"
@@ -17,7 +17,6 @@ class Mastermind
 	end
 
 	def mode_chose(choice)
-
 		if choice == 1
 			@mode = "BREAKER"
 		elsif choice == 2
@@ -26,5 +25,9 @@ class Mastermind
 			puts "Invalid choice, try again..."
 			choosing_mode
 		end
+	end
+
+	def game_over
+		return "Game Over"
 	end
 end

@@ -37,4 +37,6 @@ describe Mastermind do
 		param = mm.send(:game_over)
 		expect(param).to eq("Game Over")
 	end
+
+	
 end
