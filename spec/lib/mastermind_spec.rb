@@ -15,6 +15,11 @@ describe Mastermind do
 		expect(param).to eq("Jake")
 	end
 
+	it "can show a list of available colors" do
+		param = mm.available_colors
+		expect(param).to eq(["red","orange","yellow","green","blue","white","black"])
+	end 
+
 	it "can choose game mode breaker" do
 		mm.send(:mode_chose,1)
 		param = mm.mode
@@ -38,5 +43,17 @@ describe Mastermind do
 		expect(param).to eq("Game Over")
 	end
 
-	
+	it "computer makes a secret code" do
+		param = mm.send(:code_maker)
+	end
+
+	xit "returns error if code length is not 4" do
+
+	end
+
+	it "guess a code" do 
+		mm.guess
+		param = mm.color_guess
+		expect(param).to eq(["red","orange","yellow","green"])
+	end
 end
