@@ -10,8 +10,9 @@ class Mastermind
 	def start_guessing
 		code_to_break = code_maker
 		puts "Computer is generating a code..."
-		puts code_to_break
-		
+		code_guessed = ask_code
+
+		check_secret_code(code_to_break,code_guessed)
 	end
 
 	def available_colors
@@ -20,8 +21,8 @@ class Mastermind
 
 	private
 	
-	def check_secret_code
-
+	def check_secret_code(secret_code,guessed)
+		
 	end
 
 	def ask_code 

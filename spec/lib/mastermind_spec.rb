@@ -62,7 +62,7 @@ describe Mastermind do
 	end
 
 	it "check code if correct or not" do
-		param = mm.send(:check_secret_code,["red","orange","yellow","green"])
+		param = mm.send(:check_secret_code,["red","orange","yellow","green"],["blue","blue","green","green"])
 		expect(param).to eq(true)
 	end
 
