@@ -52,8 +52,21 @@ describe Mastermind do
 	end
 
 	it "guess a code" do 
-		mm.guess
-		param = mm.color_guess
+		param = mm.send(:ask_code)
 		expect(param).to eq(["red","orange","yellow","green"])
+	end
+
+	it "check color if valid" do 
+		param = mm.send(:check_if_valid_color?,"blu")
+		expect(param).to eq(false)
+	end
+
+	it "check code if correct or not" do
+		param = mm.send(:check_secret_code,["red","orange","yellow","green"])
+		expect(param).to eq(true)
+	end
+
+	it "start game" do
+		mm.start_guessing
 	end
 end
