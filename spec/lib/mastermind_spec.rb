@@ -32,7 +32,7 @@ describe Mastermind do
 		expect(param).to eq("MASTER")
 	end
 
-	it "can choose game mode by user input" do
+	xit "can choose game mode by user input" do
 		mm.send(:choosing_mode)
 		param = mm.mode
 		expect(param).to eq("BREAKER")
@@ -51,7 +51,7 @@ describe Mastermind do
 
 	end
 
-	it "guess a code" do 
+	xit "guess a code" do 
 		param = mm.send(:ask_code)
 		expect(param).to eq(["red","orange","yellow","green"])
 	end
@@ -66,7 +66,13 @@ describe Mastermind do
 		expect(param).to eq(true)
 	end
 
-	it "start game" do
+	it "generate new guessed code automatically" do
+		mm.send(:mode_chose,2)
+		param = mm.send(:check_secret_code,["blue","red","red","yellow"],["green","red","blue","yellow"])
+		expect(param).to eq(true)
+	end
+
+	xit "start game" do
 		mm.start_guessing
 	end
 end

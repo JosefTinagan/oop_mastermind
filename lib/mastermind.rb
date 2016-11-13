@@ -21,8 +21,68 @@ class Mastermind
 
 	private
 	
-	def check_secret_code(secret_code,guessed)
+	def check_secret_code(secret_code,guessed_code)
+		puts secret_code.inspect
+		puts guessed_code.inspect
 		
+		color_right_spot = 0
+		color_wrong_spot = 0
+		arrays_of_stored_number = []
+		arrays_of_stored_colors = []
+		arrays_of_wrong_spot_colors = []
+		#checking for right color and spot
+		i = secret_code.length - 1
+		while i != 0
+			#puts "#{secret_code[i]} : #{guessed_code[i]}"
+			if secret_code[i] == guessed_code[i]
+				puts "Color in the right spot!"
+				arrays_of_stored_number.push(i)
+				arrays_of_stored_colors.push(guessed_code[i])
+				secret_code.delete_at(i)
+				guessed_code.delete_at(i)
+				color_right_spot += 1
+			end
+			i -= 1
+		end
+		puts "#{color_right_spot} color(s) in the right spot!"
+
+
+		#puts secret_code.inspect
+		#puts guessed_code.inspect
+		#puts arrays_of_stored_number.inspect
+		#checking for color in wrong spot
+		for i in 0..secret_code.length - 1
+			if secret_code.include?(guessed_code[i])
+				color_wrong_spot += 1
+				arrays_of_wrong_spot_colors.push(guessed_code[i])
+			end
+		end
+
+		puts "#{color_wrong_spot} color)s in the wrong spot!"
+
+		#computer generates new code
+		if @mode == "MASTER"
+			puts "Stored numbers: #{arrays_of_stored_number}"
+			puts "Stored colors: #{arrays_of_stored_colors}"
+
+			times_to_loop = 4 - (color_wrong_spot + color_right_spot)
+
+			new_code = code_maker(times_to_loop)
+
+			for i in 0..arrays_of_wrong_spot_colors.length - 1
+				new_code.push(arrays_of_wrong_spot_colors[i])
+			end
+			puts new_code.inspect
+			new_code.shuffle!
+			for i in 0..arrays_of_stored_number.length - 1
+				new_code.insert(arrays_of_stored_number[i],arrays_of_stored_colors[i])
+
+			end
+			new_code.compact!
+			puts new_code.inspect
+			new_code
+		end
+
 	end
 
 	def ask_code 
@@ -71,9 +131,9 @@ class Mastermind
 		end
 	end
 
-	def code_maker
+	def code_maker(number_of_times=4)
 		computer_color_code = []
-		4.times do 
+		number_of_times.times do 
 			computer_color_code.push(@@array_of_colors.sample)
 		end
 		computer_color_code
