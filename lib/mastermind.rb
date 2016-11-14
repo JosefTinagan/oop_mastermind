@@ -1,5 +1,5 @@
 class Mastermind
-	attr_accessor :name, :mode
+	attr_accessor :name, :mode, :turn
 	@@array_of_colors = ["red","orange","yellow","green","blue","white","black"]
 
 	def initialize(name="You")
@@ -10,9 +10,12 @@ class Mastermind
 	def start_guessing
 		code_to_break = code_maker
 		puts "Computer is generating a code..."
+		
+		
 		code_guessed = ask_code
-
 		check_secret_code(code_to_break,code_guessed)
+
+		
 	end
 
 	def available_colors
