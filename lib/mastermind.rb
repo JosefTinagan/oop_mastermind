@@ -4,18 +4,59 @@ class Mastermind
 
 	def initialize(name="You")
 		@name = name
-		#@mode = choosing_mode
+		@mode = choosing_mode
+		
+		@turn = 1
+
+		begin_game
+	end
+
+	def begin_game
+		if @mode == "BREAKER"
+			start_guessing
+		else
+			computer_guessing
+		end
+	end 
+		
+	def computer_guessing
+		stored_secret_code = ask_code
+		@turn = 1
+		code_guessed = code_maker
+
+		puts "mode is: #{@mode}"
+		while @turn != 12
+			puts "Turn: #{@turn}"
+			puts "Computer is playing..."
+			code_guessed = check_secret_code(stored_secret_code,code_guessed)
+
+			@turn += 1
+		end
+
+		if @turn == 12
+			game_over
+		end
+
 	end
 
 	def start_guessing
-		code_to_break = code_maker
+		@turn = 1
 		puts "Computer is generating a code..."
-		
-		
-		code_guessed = ask_code
-		check_secret_code(code_to_break,code_guessed)
+		stored_secret_code = code_maker
+		while @turn != 12
+			
+			puts "Secret code is : #{stored_secret_code}"
+			puts "Possible colors: #{@@array_of_colors}"
+			puts "Turn: #{@turn}"
+			code_guessed = ask_code
+			check_secret_code(stored_secret_code,code_guessed)
 
-		
+			@turn += 1
+		end
+
+		if @turn == 12
+			game_over
+		end
 	end
 
 	def available_colors
@@ -25,37 +66,45 @@ class Mastermind
 	private
 	
 	def check_secret_code(secret_code,guessed_code)
+
 		puts secret_code.inspect
 		puts guessed_code.inspect
-		
+
 		color_right_spot = 0
 		color_wrong_spot = 0
 		arrays_of_stored_number = []
 		arrays_of_stored_colors = []
 		arrays_of_wrong_spot_colors = []
+		arrays_of_checking = []
+		
 		#checking for right color and spot
 		i = secret_code.length - 1
-		while i != 0
+		while i != -1
 			#puts "#{secret_code[i]} : #{guessed_code[i]}"
 			if secret_code[i] == guessed_code[i]
 				puts "Color in the right spot!"
 				arrays_of_stored_number.push(i)
 				arrays_of_stored_colors.push(guessed_code[i])
-				secret_code.delete_at(i)
-				guessed_code.delete_at(i)
+				#secret_code.slice!(i)
+				#guessed_code.slice!(i)
 				color_right_spot += 1
+			else
+				arrays_of_checking.push(guessed_code[i])
 			end
 			i -= 1
 		end
 		puts "#{color_right_spot} color(s) in the right spot!"
 
-
+			if color_right_spot == 4
+				win
+			end
 		#puts secret_code.inspect
 		#puts guessed_code.inspect
 		#puts arrays_of_stored_number.inspect
+
 		#checking for color in wrong spot
 		for i in 0..secret_code.length - 1
-			if secret_code.include?(guessed_code[i])
+			if arrays_of_checking.include?(guessed_code[i])
 				color_wrong_spot += 1
 				arrays_of_wrong_spot_colors.push(guessed_code[i])
 			end
@@ -84,6 +133,7 @@ class Mastermind
 			new_code.compact!
 			puts new_code.inspect
 			new_code
+
 		end
 
 	end
@@ -143,7 +193,48 @@ class Mastermind
 	end
 
 	def game_over
-		return "Game Over"
+		if @mode == "BREAKER"
+			puts "Game Over!"
+			puts "Out of turns..."
+			play_again
+		else
+			puts "Game Over!"
+			puts "Computer is out of turns..."
+			puts "@name is Victorious!"
+			computer_play_again
+		end
+	end
+
+	def win
+		puts "#{name} is victorious!"
+		play_again
+	end
+
+	def computer_play_again
+		puts "Would you like to play as a Code Master again? (y/n) "
+		play_again = gets.chomp
+			if play_again.downcase == "y"
+				computer_guessing
+			elsif play_again.downcase == "n"
+				exit
+			else
+				puts "Invalid answer..."
+				computer_play_again
+			end
+	end
+
+	def play_again
+		puts "Do you want to play again? (y/n) "
+		play_again = gets.chomp
+			if play_again.downcase == "y"
+				
+				start_guessing
+			elsif play_again.downcase == "n"
+				exit
+			else
+				puts "Invalid answer..."
+				play_again
+			end
 	end
 
 end
