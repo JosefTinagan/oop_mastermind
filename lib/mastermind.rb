@@ -5,9 +5,7 @@ class Mastermind
 	def initialize(name="You")
 		@name = name
 		@mode = choosing_mode
-		
 		@turn = 1
-
 		begin_game
 	end
 
@@ -44,13 +42,11 @@ class Mastermind
 		puts "Computer is generating a code..."
 		stored_secret_code = code_maker
 		while @turn != 13
-			
-			puts "Secret code is : #{stored_secret_code}"
+			#puts "Secret code is : #{stored_secret_code}"
 			puts "Possible colors: #{@@array_of_colors}"
 			puts "Turn: #{@turn}"
 			code_guessed = ask_code
 			check_secret_code(stored_secret_code,code_guessed)
-
 			@turn += 1
 		end
 
@@ -80,13 +76,10 @@ class Mastermind
 		#checking for right color and spot
 		i = secret_code.length - 1
 		while i != -1
-			#puts "#{secret_code[i]} : #{guessed_code[i]}"
 			if secret_code[i] == guessed_code[i]
 				puts "Color in the right spot!"
 				arrays_of_stored_number.push(i)
 				arrays_of_stored_colors.push(guessed_code[i])
-				#secret_code.slice!(i)
-				#guessed_code.slice!(i)
 				color_right_spot += 1
 			else
 				arrays_of_checking.push(secret_code[i])
@@ -95,21 +88,13 @@ class Mastermind
 		end
 		puts "#{color_right_spot} color(s) in the right spot!"
 
-			if color_right_spot == 4
-				win
-			end
-		#puts secret_code.inspect
-		#puts guessed_code.inspect
-		#puts arrays_of_stored_number.inspect
+		#check if win condition
+		if color_right_spot == 4
+			win
+		end
+		
 
 		#checking for color in wrong spot
-		#for i in 0..secret_code.length - 1
-		#	if arrays_of_checking.include?(guessed_code[i])
-		#		color_wrong_spot += 1
-		#		arrays_of_wrong_spot_colors.push(guessed_code[i])
-		#	end
-		#end
-		
 		guessed_code_dup = guessed_code.dup
 		i = arrays_of_checking.length - 1
 		while i != -1
@@ -134,7 +119,6 @@ class Mastermind
 			puts "Stored colors: #{arrays_of_stored_colors}"
 
 			times_to_loop = 4 - (color_wrong_spot + color_right_spot)
-
 			new_code = code_maker(times_to_loop)
 
 			for i in 0..arrays_of_wrong_spot_colors.length - 1
@@ -149,9 +133,7 @@ class Mastermind
 			new_code.compact!
 			puts new_code.inspect
 			new_code
-
 		end
-
 	end
 
 	def ask_code 
@@ -257,5 +239,4 @@ class Mastermind
 				play_again
 			end
 	end
-
 end
