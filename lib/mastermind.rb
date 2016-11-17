@@ -25,7 +25,7 @@ class Mastermind
 		code_guessed = code_maker
 
 		puts "mode is: #{@mode}"
-		while @turn != 12
+		while @turn != 13
 			puts "Turn: #{@turn}"
 			puts "Computer is playing..."
 			code_guessed = check_secret_code(stored_secret_code,code_guessed)
@@ -33,7 +33,7 @@ class Mastermind
 			@turn += 1
 		end
 
-		if @turn == 12
+		if @turn == 13
 			game_over
 		end
 
@@ -43,7 +43,7 @@ class Mastermind
 		@turn = 1
 		puts "Computer is generating a code..."
 		stored_secret_code = code_maker
-		while @turn != 12
+		while @turn != 13
 			
 			puts "Secret code is : #{stored_secret_code}"
 			puts "Possible colors: #{@@array_of_colors}"
@@ -54,7 +54,7 @@ class Mastermind
 			@turn += 1
 		end
 
-		if @turn == 12
+		if @turn == 13
 			game_over
 		end
 	end
@@ -89,7 +89,7 @@ class Mastermind
 				#guessed_code.slice!(i)
 				color_right_spot += 1
 			else
-				arrays_of_checking.push(guessed_code[i])
+				arrays_of_checking.push(secret_code[i])
 			end
 			i -= 1
 		end
@@ -103,11 +103,27 @@ class Mastermind
 		#puts arrays_of_stored_number.inspect
 
 		#checking for color in wrong spot
-		for i in 0..secret_code.length - 1
-			if arrays_of_checking.include?(guessed_code[i])
-				color_wrong_spot += 1
-				arrays_of_wrong_spot_colors.push(guessed_code[i])
-			end
+		#for i in 0..secret_code.length - 1
+		#	if arrays_of_checking.include?(guessed_code[i])
+		#		color_wrong_spot += 1
+		#		arrays_of_wrong_spot_colors.push(guessed_code[i])
+		#	end
+		#end
+		
+		guessed_code_dup = guessed_code.dup
+		i = arrays_of_checking.length - 1
+		while i != -1
+			j = guessed_code_dup.length - 1
+				while j != -1
+					if arrays_of_checking[i] == guessed_code_dup[j]
+						color_wrong_spot += 1
+						arrays_of_wrong_spot_colors.push(guessed_code_dup[j])
+						arrays_of_checking.delete_at(i)
+						guessed_code_dup.delete_at(j)
+					end
+					j -= 1
+				end
+			i -= 1
 		end
 
 		puts "#{color_wrong_spot} color)s in the wrong spot!"
@@ -200,14 +216,19 @@ class Mastermind
 		else
 			puts "Game Over!"
 			puts "Computer is out of turns..."
-			puts "@name is Victorious!"
+			puts "#{@name} is Victorious!"
 			computer_play_again
 		end
 	end
 
 	def win
-		puts "#{name} is victorious!"
-		play_again
+		if @mode == "BREAKER"
+			puts "#{@name} is victorious!"
+			play_again
+		else
+			puts "Computer successfully guessed your code!"
+			computer_play_again
+		end
 	end
 
 	def computer_play_again
